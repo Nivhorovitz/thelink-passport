@@ -81,13 +81,10 @@
   </main>
 
   <script>
-    // =============================
-    // EDIT HERE: school names + lists
-    // =============================
-const SCHOOL_A_NAME = "אפק";
-const SCHOOL_B_NAME = "הרצוג";
+    const SCHOOL_A_NAME = "אפק";
+    const SCHOOL_B_NAME = "הרצוג";
 
-const RAW_LIST_A = `
+    const RAW_LIST_A = `
 גלי עמאר
 כפיר סויסה
 אמה וייס
@@ -119,7 +116,7 @@ const RAW_LIST_A = `
 אלמה רבינוביץ׳
 `;
 
-const RAW_LIST_B = `
+    const RAW_LIST_B = `
 איתי כהן
 מאיה אברהם
 עומר מזרחי
@@ -151,8 +148,9 @@ const RAW_LIST_B = `
 אלון דרור
 `;
 
-const LIST_A = parseNamesFromBlock(RAW_LIST_A);
-const LIST_B = parseNamesFromBlock(RAW_LIST_B);
+    const LIST_A = parseNamesFromBlock(RAW_LIST_A);
+    const LIST_B = parseNamesFromBlock(RAW_LIST_B);
+
     const ROUTES = [
       { id:"ofek", name:"מסלול אופק", icon:"🌅", room:"מרחב אופק" },
       { id:"lab", name:"מסלול מעבדה", icon:"🔬", room:"מרחב מעבדה" },
@@ -163,6 +161,7 @@ const LIST_B = parseNamesFromBlock(RAW_LIST_B);
     let assignments = [];
 
     function cleanText(value){ return String(value || "").replace(String.fromCharCode(65279), "").trim(); }
+    function parseNamesFromBlock(text){ return String(text || "").split(/\r?\n/).map(cleanText).filter(Boolean); }
     function normalize(value){ let text = cleanText(value).toLowerCase(); while(text.indexOf("  ") >= 0) text = text.split("  ").join(" "); return text; }
     function uniqueStudents(names, school){ const seen = new Set(); const students = []; names.forEach(function(name){ const cleanName = cleanText(name); const key = normalize(cleanName) + "|" + normalize(school); if(!cleanName || seen.has(key)) return; seen.add(key); students.push({ name:cleanName, school:school }); }); return students; }
     function shuffleStable(list){ return list.map(function(item,index){ return { item:item, sort:Math.sin(index + cleanText(item.name).length * 999) }; }).sort(function(a,b){ return a.sort - b.sort; }).map(function(entry){ return entry.item; }); }
